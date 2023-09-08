@@ -240,14 +240,14 @@ def get_currencies(text):
 
   detected_currencies = re.finditer(patts[0], text)
   for x in detected_currencies:
-    curr.append(["CURRENCY", x.group(2), x.start(), x.start() + len(x.group(2))])
+    curr.append(["CURRENCY", x.group(2), x.start(), x.start() + (len(x.group(2)) + len(x.group(1)) if x.group(1) else len(x.group(2)))])
     curr.append(["AMOUNT", x.group(4), x.end() - len(x.group(4)), x.end()])
 
   detected_currencies = re.finditer(patts[1], text)
   for x in detected_currencies:
     curr.append(["AMOUNT", x.group(1), x.start() , x.start() + len(x.group(1)) ])
-    curr.append(["CURRENCY", x.group(4), x.end() - len(x.group(4)), x.end()])
-  # print(curr)
+    curr.append(["CURRENCY", x.group(4), x.end() - (len(x.group(4)) + len(x.group(5)) if x.group(5) else len(x.group(4))), x.end()])
+
   return curr
 
 
